@@ -10,6 +10,7 @@ macro(build_numpy)
 
   set(QNX_CPPFLAGS        "-D_POSIX_THREADS \
                           -Wno-implicit-function-declaration -Wno-stringop-overflow -Wno-unused-but-set-variable \
+                          -D_QNX_SOURCE \
                           -I${QNX_TARGET}/usr/include \
                           -I${QNX_TARGET}/usr/include/python${PYTHON_VERSION_QNX} \
                           -I${QNX_TARGET}/${CPUVARDIR}/usr/include \

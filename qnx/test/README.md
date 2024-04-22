@@ -7,13 +7,16 @@ ros2 has 300+ packages.
 
 ### Move ros2 to RPI4
 
-After build is finished scp the install/aarch64le on to RPI4 as /opt/ros/humble:
+Use scp to move ros2_humble.tar.gz to the target
 
 ```bash
-# You need ./install/aarch64le folder to be renamed as humble.
-# Make sure to run "rm -rf /opt/ros/humble && mkdir /opt/ros" on the target so
-# that the following command will rename the aarch64le folder as humble.
-scp -r ./install/aarch64le root@<target-ip-address>:/opt/ros/humble
+scp ros2_humble.tar.gz root@<target-ip-address>:/
+```
+
+```bash
+ssh root@<target-ip-address>
+cd /
+tar -xvzf ./ros2_humble.tar.gz
 ```
 
 ### Prepare Target
@@ -26,7 +29,8 @@ ntpdate -sb 0.pool.ntp.org 1.pool.ntp.org
 mkdir -p /data
 export TMPDIR=/data
 python3 -m ensurepip
-pip3 install packaging
+pip3 install packaging pyyaml lark
+export PYTHONPATH=$PYTHONPATH:/opt/ros/humble/usr/lib/python3.11/site-packages/
 ```
 
 ### Run unit tests on the minimal set of packages
@@ -34,6 +38,11 @@ pip3 install packaging
 cd /opt/ros/humble
 . /opt/ros/humble/setup.bash
 cd /opt/ros/humble
+
+export QNX_SDP_VERSION=qnx800
+# export QNX_SDP_VERSION=qnx710
+
+chmod +x ./qnxtest.sh
 ./qnxtest.sh
 ```
 
@@ -44,7 +53,7 @@ Run listener in a terminal:
 ```bash
 cd /opt/ros/humble
 . /opt/ros/humble/setup.bash
-ros2 run demo_nodes_cpp listener
+python3 ./bin/ros2 run demo_nodes_cpp listener
 ```
 
 Run talker in another terminal:
@@ -52,10 +61,12 @@ Run talker in another terminal:
 ```bash
 cd /opt/ros/humble
 . /opt/ros/humble/setup.bash
-ros2 run demo_nodes_cpp talker
+python3 ./bin/ros2 run demo_nodes_cpp talker
 ```
 
 ## QEMU Testing
+
+Currently not supported for a Docker build.
 
 Start a QEMU instance:
 

@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index e4e8c41aa..74fb2ba7d 100644
+index e4e8c41aa..c8c146939 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -18,6 +18,8 @@
@@ -11,7 +11,7 @@ index e4e8c41aa..74fb2ba7d 100644
  # Set CMAKE_BUILD_TYPE to Release by default.
  if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
      message(STATUS "Setting build type to 'Release' as none was specified.")
-@@ -97,7 +99,14 @@ endif()
+@@ -97,7 +99,18 @@ endif()
  ###############################################################################
  include(${PROJECT_SOURCE_DIR}/cmake/common/check_configuration.cmake)
  
@@ -19,7 +19,11 @@ index e4e8c41aa..74fb2ba7d 100644
 +if(QNX)
 +    set(FORCE_CXX "14" CACHE STRING "C++ standard fulfillment selection")
 +    add_compile_definitions(ASIO_HAS_STD_STRING_VIEW=1)
-+    link_libraries(socket fsnotify)
++    if ($ENV{QNX_SDP_VERSION} STREQUAL "qnx710")
++        link_libraries(socket)
++    else()
++        link_libraries(socket fsnotify)
++    endif()
 +else()
 +    set(FORCE_CXX "11" CACHE STRING "C++ standard fulfillment selection")
 +endif()
@@ -52,14 +56,14 @@ index 80dfd0c19..8a1f2197b 100644
                   PROPERTY INTERFACE_COMPILE_OPTIONS "$<$<COMPILE_LANGUAGE:CUDA>:SHELL:-Xcompiler -pthread>"
                                                      "$<$<NOT:$<COMPILE_LANGUAGE:CUDA>>:-pthread>")
 diff --git a/test/CMakeLists.txt b/test/CMakeLists.txt
-index 531770f2c..c3cadc5b9 100644
+index 531770f2c..18b3b10a0 100644
 --- a/test/CMakeLists.txt
 +++ b/test/CMakeLists.txt
 @@ -25,6 +25,10 @@ endif()
  file(TO_CMAKE_PATH "${PROJECT_SOURCE_DIR}/valgrind.supp" MEMORYCHECK_SUPPRESSIONS_FILE_TMP)
  set(MEMORYCHECK_SUPPRESSIONS_FILE ${MEMORYCHECK_SUPPRESSIONS_FILE_TMP} CACHE FILEPATH "Valgrind suppresions file")
  
-+if(QNX)
++if(QNX AND $ENV{QNX_SDP_VERSION} STREQUAL "qnx800")
 +    set(EPROSIMA_BUILD_TESTS ON)
 +endif()
 +

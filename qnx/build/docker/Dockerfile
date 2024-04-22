@@ -61,6 +61,9 @@ ARG USER_NAME
 ARG GROUP_NAME
 ARG USER_ID
 ARG GROUP_ID
+ARG QNX_SDP_VERSION
+
+ENV QNX_SDP_VERSION=$QNX_SDP_VERSION
 
 RUN groupadd --gid ${GROUP_ID} ${GROUP_NAME} && \
 	useradd --uid ${USER_ID} --gid ${GROUP_ID} --groups sudo --no-log-init --create-home ${USER_NAME} && \
@@ -96,10 +99,10 @@ RUN cd /home/${USER_NAME} && \
 	pytest-rerunfailures \
 	pytest
 
-# QNX SDP8.0 should be installed on system before creating an image
-# QNX SDP8.0 directory should be named qnx800
-# ~/qnx800 directory will have to be copied over to the build context directory
-COPY --chown=${USER_NAME}:${GROUP_NAME} qnx800 /home/${USER_NAME}/qnx800
+# QNX SDP should be installed on system before creating an image
+# QNX SDP directory should be named qnx800 or qnx710
+# ~/$QNX_SDP_VERSION directory will have to be copied over to the build context directory
+COPY --chown=${USER_NAME}:${GROUP_NAME} $QNX_SDP_VERSION /home/${USER_NAME}/$QNX_SDP_VERSION
 
 # Welcome Message
 COPY --chown=${USER_NAME}:${GROUP_NAME} ".welcome.bash" "/home/${USER_NAME}"

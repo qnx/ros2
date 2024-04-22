@@ -1,8 +1,9 @@
-#! /bin/sh
+#!/bin/sh
 
 DIR=${PWD}
 
 export PYTHONPATH=$PYTHONPATH:${DIR}/usr/lib/python3.11/site-packages
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/ros/humble/lib
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${DIR}/test/libstatistics_collector
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${DIR}/test/rcpputils
 
@@ -93,6 +94,12 @@ echo Testing rosidl_typesupport_fastrtps_cpp
 cd ${DIR}/test/rosidl_typesupport_fastrtps_cpp
 ./test_wstring_conversion
 ./test_wstring_conversion_mem
+
+if [ "$QNX_SDP_VERSION" == "qnx710" ]
+then
+    echo "Fast-DDS googletests are temporarily disabled because of an incompatibility with the WillOnce function"
+    exit 0
+fi
 
 echo Testing Fast-DDS
 export CERTS_PATH=${DIR}/test/fastrtps/certs

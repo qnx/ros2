@@ -5,8 +5,8 @@
 # $2 arg is the patch name
 qnx_patch () {
     cd $1
-    git apply --whitespace=nowarn ${root_dir}/qnx_patches/$2
-    cd -
+    git apply --whitespace=nowarn ${root_dir}/qnx_patches/$2 > /dev/null
+    cd - > /dev/null
 }
 
 root_dir=${PWD}/qnx/build
@@ -31,9 +31,14 @@ qnx_patch ./src/eProsima/Fast-CDR fastcdr.patch
 qnx_patch ./src/eProsima/Fast-DDS fastrtps.patch
 
 qnx_patch ./src/ros-tooling/libstatistics_collector libstatistics_collector.patch
+qnx_patch ./src/ros2/demos demos.patch
 qnx_patch ./src/ros2/rmw/rmw rmw.patch
 qnx_patch ./src/ros2/rosidl rosidl.patch
+qnx_patch ./src/ros2/yaml_cpp_vendor yaml_cpp_vendor.patch
 qnx_patch ./src/ros2/rosidl_typesupport rosidl_typesupport.patch
 qnx_patch ./src/ros2/rosidl_typesupport_fastrtps rosidl_typesupport_fastrtps.patch
 qnx_patch ./src/ament/ament_cmake ament_cmake.patch
 
+qnx_patch ../googletest googletest.patch
+
+echo "Packages patched with QNX changes"

@@ -12,13 +12,14 @@ echo "
 *
 * To build ROS2 run the following:
 *
-*   1- cd ros2
-*   2- ./qnx/build/scripts/build-ros2.sh
+*   1- . ./env/bin/activate
+*   2- cd ~/ros2_workspace/ros2
+*   3- ./qnx/build/scripts/build-ros2.sh
 *
 ******************************************************************
 "
 
 # Setup environment variables
 echo "QNX Environment variables are set to:"
-source $HOME/qnx800/qnxsdp-env.sh
+source $HOME/$QNX_SDP_VERSION/qnxsdp-env.sh
 echo ""

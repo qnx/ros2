@@ -13,5 +13,5 @@
 	<requires value="suppress-library: autogen"/>
 	<provides value="suppress-library: autogen"/>
 
-	<file name="${targetfolder}/[ARCH]/humble.tar.gz" donotindexarchives="true"/>
+	<file name="${targetfolder}/[ARCH]/ros2_humble.tar.gz" donotindexarchives="true"/>
 </shiplist>

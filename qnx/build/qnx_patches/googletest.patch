@@ -1,0 +1,17 @@
+diff --git a/qnx/build/common.mk b/qnx/build/common.mk
+index 1c24c95f..6a22278c 100644
+--- a/qnx/build/common.mk
++++ b/qnx/build/common.mk
+@@ -47,9 +47,9 @@ CMAKE_ARGS = -DCMAKE_TOOLCHAIN_FILE=$(PROJECT_ROOT)/qnx.nto.toolchain.cmake \
+              -DEXTRA_CMAKE_ASM_FLAGS="$(FLAGS)" \
+              -DEXTRA_CMAKE_LINKER_FLAGS="$(LDFLAGS)" \
+              -DBUILD_SHARED_LIBS=1 \
+-             -Dgtest_build_tests=ON \
+-             -Dgtest_build_samples=ON \
+-             -Dgmock_build_tests=ON
++             -Dgtest_build_tests=OFF \
++             -Dgtest_build_samples=OFF \
++             -Dgmock_build_tests=OFF
+ 
+ MAKE_ARGS ?= -j $(firstword $(JLEVEL) 1)
+ 

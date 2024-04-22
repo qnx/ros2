@@ -1,4 +1,4 @@
 # QNX Build Files
 build/nto-aarch64-le/*
 build/nto-x86_64-o/*
-build/docker/qnx800
+build/docker/qnx*
